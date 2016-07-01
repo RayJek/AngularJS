@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+        <html data-ng-app="app">
+
+<head>
+  <title>AngularJsPRO</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+
+
+<body data-ng-controller="defaultCtrl">
+<div class="controller">
+  <div>
+    <table class="table" data-ng-init="showButton=false">
+      <thead>
+      <tr>
+        <th>Dane</th>
+        <th>Zmien Dane</th>
+        </tr>
+      </thead>
+      <tr data-ng-repeat="mountain in dropList track by $index">
+        <td class="col-lg-6">{{mountain}}</td>
+        <td class="col-lg-6">
+          <input data-ng-model="mountain" data-ng-change="showButton=true"/>
+          <button class="btn btn-danger"
+                  data-ng-show="showButton"
+                  data-ng-click="save($index, mountain); showButton=false">Zmien</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  <h4>Zmodyfikowane Dane:</h4>
+  <div class="well">
+    <ul>
+      <li data-ng-repeat="mountain in changedropList track by $index">
+        {{mountain}}
+      </li>
+    </ul>
+  </div>
+  <h4>Dane:</h4>
+  <div class="well">
+    <ul>
+      <li data-ng-repeat="mountain in masterdropList track by $index">
+        {{mountain}}
+      </li>
+    </ul>
+  </div>
+  </div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+<script>
+  var app =angular.module('app', []);
+
+  app.controller("defaultCtrl", function ($scope, dropList) {
+    $scope.dropList = dropList;
+
+    $scope.masterdropList = angular.copy($scope.dropList);
+    $scope.changedropList = angular.copy($scope.dropList);
+    $scope.save = function (index, newName) {
+      $scope.changedropList[index] = newName
+    };
+  });
+  app.factory('dropList', function (){
+    return ["Krystian", "AngularJS", "JavaScript", "NodeJS"];
+  });
+
+</script>
+</body>
+</html>
